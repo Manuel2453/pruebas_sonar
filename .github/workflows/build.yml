@@ -14,11 +14,11 @@ jobs:
     strategy:
       matrix:
         service:
-          - MicroServiceCarritoCompras
-          - MicroServicePagos
-          - MicroServicePromociones
-          - MicroServiceReservas
-          - MicroServiceUsuarios
+          - MicroserviceCarritoCompras
+          - MicroservicePagos
+          - MicroservicePromociones
+          - MicroserviceReservas
+          - MicroserviceUsuarios
     steps:
       - uses: actions/checkout@v4
         with:
