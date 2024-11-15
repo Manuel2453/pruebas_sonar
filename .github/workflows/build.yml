@@ -1,14 +1,24 @@
 name: SonarQube Cloud
+
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service:
+          - MicroServiceCarritoCompras
+          - MicroServicePagos
+          - MicroServicePromociones
+          - MicroServiceReservas
+          - MicroServiceUsuarios
     steps:
       - uses: actions/checkout@v4
         with:
@@ -17,7 +27,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'zulu'
       - name: Cache SonarQube Cloud packages
         uses: actions/cache@v4
         with:
@@ -31,7 +41,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
+        working-directory: ./${{ matrix.service }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Manuel2453_pruebas_sonar  
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.projectKey=manuel2453_${{ matrix.service }}
