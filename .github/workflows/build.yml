@@ -15,8 +15,8 @@ jobs:
       matrix:
         service:
           - MicroserviceUsuarios
-          - MicroservicePromociones
           - MicroserviceReservas
+          - MicroservicePromociones
           - MicroserviceCarritoCompras
           - MicroservicePagos
           
