@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   build:
@@ -17,11 +19,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Paso 2: Configurar JDK 21 (puedes cambiar la versión si usas otra)
+    # Paso 2: Configurar JDK 21 (usando distribución Zulu)
     - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
         java-version: '21'
+        distribution: 'zulu'  # Se debe especificar la distribución aquí
 
     # Paso 3: Instalar dependencias y compilar el proyecto (sin ejecutar pruebas en este paso)
     - name: Build with Maven
