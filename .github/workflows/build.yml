@@ -21,22 +21,22 @@ jobs:
           - MicroservicePagos
           
     services:
-      mysql:
+      mysql_usuarios:
         image: mysql:8
         ports:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: changeme
-          MYSQL_DATABASE: usuarios_viajesglobal
+          MYSQL_DATABASE: Usuarios_ViajesGlobal
         options: --health-cmd="mysqladmin ping --silent" --health-timeout=5m --health-start-period=5s
-
+        
       mysql_pagos:
         image: mysql:8
         ports:
           - 3307:3306
         env:
           MYSQL_ROOT_PASSWORD: changeme
-          MYSQL_DATABASE: pagos_viajesglobal
+          MYSQL_DATABASE: pagos_ViajesGlobal
         options: --health-cmd="mysqladmin ping --silent" --health-timeout=5m --health-start-period=5s
 
       mysql_promociones:
@@ -45,7 +45,7 @@ jobs:
           - 3308:3306
         env:
           MYSQL_ROOT_PASSWORD: changeme
-          MYSQL_DATABASE: promociones_viajesglobal
+          MYSQL_DATABASE: promociones_ViajesGlobal
         options: --health-cmd="mysqladmin ping --silent" --health-timeout=5m --health-start-period=5s
 
       mysql_carrito:
@@ -54,7 +54,7 @@ jobs:
           - 3309:3306
         env:
           MYSQL_ROOT_PASSWORD: changeme
-          MYSQL_DATABASE: carrito_viajesglobal
+          MYSQL_DATABASE: Carrito_ViajesGlobal
         options: --health-cmd="mysqladmin ping --silent" --health-timeout=5m --health-start-period=5s
 
       mysql_reservas:
@@ -63,7 +63,7 @@ jobs:
           - 3310:3306
         env:
           MYSQL_ROOT_PASSWORD: changeme
-          MYSQL_DATABASE: reservas_viajesglobal
+          MYSQL_DATABASE: reservas_ViajesGlobal
         options: --health-cmd="mysqladmin ping --silent" --health-timeout=5m --health-start-period=5s
 
     steps:
@@ -99,11 +99,11 @@ jobs:
         working-directory: ./Viajes-Global--Develop/${{ matrix.service }}
         run: mvn clean install
         
-      - name: Build and install MicroservicePromociones
+      - name: Build and install MicroserviceReservas
         working-directory: ./Viajes-Global--Develop/${{ matrix.service }}
         run: mvn clean install
         
-      - name: Build and install MicroservicePagos
+      - name: Build and install MicroservicePromociones
         working-directory: ./Viajes-Global--Develop/${{ matrix.service }}
         run: mvn clean install
         
@@ -111,17 +111,21 @@ jobs:
         working-directory: ./Viajes-Global--Develop/${{ matrix.service }}
         run: mvn clean verify
         
+      - name: Build and install MicroservicePagos
+        working-directory: ./Viajes-Global--Develop/${{ matrix.service }}
+        run: mvn clean install
+        
       # Run SonarQube analysis
       - name: Build and analyze with SonarQube
         working-directory: ./Viajes-Global--Develop/${{ matrix.service }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          DB_URL_USUARIOS: jdbc:mysql://localhost:3306/usuarios_viajesglobal
-          DB_URL_PAGOS: jdbc:mysql://localhost:3306/pagos_viajesglobal
-          DB_URL_PROMOCIONES: jdbc:mysql://localhost:3306/promociones_viajesglobal
-          DB_URL_CARRITO: jdbc:mysql://localhost:3306/carrito_viajesglobal
-          DB_URL_RESERVAS: jdbc:mysql://localhost:3306/reservas_viajesglobal
+          DB_URL_USUARIOS: jdbc:mysql://localhost:3306/Usuarios_ViajesGlobal
+          DB_URL_RESERVAS: jdbc:mysql://localhost:3310/reservas_ViajesGlobal
+          DB_URL_PROMOCIONES: jdbc:mysql://localhost:3308/promociones_ViajesGlobal
+          DB_URL_CARITO: jdbc:mysql://localhost:3309/Carrito_ViajesGlobal
+          DB_URL_PAGOS: jdbc:mysql://localhost:3307/pagos_ViajesGlobal
           DB_USER: root
           DB_PASSWORD: changeme
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
