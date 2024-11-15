@@ -33,7 +33,7 @@ jobs:
       mysql_pagos:
         image: mysql:8
         ports:
-          - 3306:3306
+          - 3307:3306
         env:
           MYSQL_ROOT_PASSWORD: changeme
           MYSQL_DATABASE: pagos_ViajesGlobal
@@ -42,7 +42,7 @@ jobs:
       mysql_promociones:
         image: mysql:8
         ports:
-          - 3306:3306
+          - 3308:3306
         env:
           MYSQL_ROOT_PASSWORD: changeme
           MYSQL_DATABASE: promociones_ViajesGlobal
@@ -51,7 +51,7 @@ jobs:
       mysql_carrito:
         image: mysql:8
         ports:
-          - 3306:3306
+          - 3309:3306
         env:
           MYSQL_ROOT_PASSWORD: changeme
           MYSQL_DATABASE: Carrito_ViajesGlobal
@@ -60,7 +60,7 @@ jobs:
       mysql_reservas:
         image: mysql:8
         ports:
-          - 3306:3306
+          - 3310:3306
         env:
           MYSQL_ROOT_PASSWORD: changeme
           MYSQL_DATABASE: reservas_ViajesGlobal
@@ -118,10 +118,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           DB_USUARIOS_URL: jdbc:mysql://localhost:3306/Usuarios_ViajesGlobal
-          DB_PAGOS_URL: jdbc:mysql://localhost:3306/pagos_ViajesGlobal
-          DB_PROMOCIONES_URL: jdbc:mysql://localhost:3306/promociones_ViajesGlobal
-          DB_CARRITO_URL: jdbc:mysql://localhost:3306/Carrito_ViajesGlobal
-          DB_RESERVAS_URL: jdbc:mysql://localhost:3306/reservas_ViajesGlobal
+          DB_PAGOS_URL: jdbc:mysql://localhost:3307/pagos_ViajesGlobal
+          DB_PROMOCIONES_URL: jdbc:mysql://localhost:3308/promociones_ViajesGlobal
+          DB_CARRITO_URL: jdbc:mysql://localhost:3309/Carrito_ViajesGlobal
+          DB_RESERVAS_URL: jdbc:mysql://localhost:3310/reservas_ViajesGlobal
           DB_USER: root
           DB_PASSWORD: changeme
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
